@@ -1,6 +1,3 @@
-from random import randint
-
-
 class ListExercise:
     @staticmethod
     def replace(input_list: list[int]) -> list[int]:
