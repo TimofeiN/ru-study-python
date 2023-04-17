@@ -1,5 +1,4 @@
 from typing import Union
-from functools import reduce
 from collections import Counter
 
 
@@ -17,14 +16,15 @@ class MapExercise:
         """
 
         def _country_and_rating_check(dict_obj: dict) -> float:
-            countries = dict_obj["country"].split(",")
+            country_counter = Counter[str]
+            countries = country_counter(dict_obj["country"])[","]
             rating_kino = dict_obj["rating_kinopoisk"]
-            if len(countries) > 1 and rating_kino != "":
+            if countries > 0 and rating_kino != "":
                 return float(rating_kino)
             return -1
 
         ratings_list = list(filter(lambda x: x > 0, map(_country_and_rating_check, list_of_movies)))
-        avg_rating = reduce(lambda x, y: x + y, ratings_list) / len(ratings_list)
+        avg_rating = sum(ratings_list) / len(ratings_list)
         return avg_rating
 
     @staticmethod
@@ -54,5 +54,5 @@ class MapExercise:
             return letter_count
 
         names_list = list(filter(None, map(_rating_filter, list_of_movies)))
-        result = reduce(lambda x, y: x + y, map(_count_letter, names_list), 0)
+        result = sum(map(_count_letter, names_list))
         return result
