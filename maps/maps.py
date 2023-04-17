@@ -16,10 +16,10 @@ class MapExercise:
         """
 
         def _country_and_rating_check(dict_obj: dict) -> float:
-            country_counter = Counter[str]
-            countries = country_counter(dict_obj["country"])[","]
+            countries = dict_obj["country"]
+            country_count = countries.count(",")
             rating_kino = dict_obj["rating_kinopoisk"]
-            if countries > 0 and rating_kino != "":
+            if country_count > 0 and rating_kino != "":
                 return float(rating_kino)
             return -1
 
