@@ -1,5 +1,4 @@
 from typing import Union
-from collections import Counter
 
 
 class MapExercise:
@@ -49,8 +48,7 @@ class MapExercise:
             return ""
 
         def _count_letter(phrase: str) -> int:
-            counter = Counter(phrase)
-            letter_count = counter["и"]
+            letter_count = phrase.count("и")
             return letter_count
 
         names_list = list(filter(None, map(_rating_filter, list_of_movies)))
