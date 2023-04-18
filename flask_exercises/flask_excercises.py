@@ -1,4 +1,6 @@
-from flask import Flask
+from typing import Dict
+
+from flask import Flask, request, jsonify, Response
 
 
 class FlaskExercise:
@@ -28,4 +30,39 @@ class FlaskExercise:
 
     @staticmethod
     def configure_routes(app: Flask) -> None:
-        pass
+        users: Dict[str, Dict] = {}
+
+        @app.post("/user")
+        def create_user() -> tuple[Response, int]:
+            request_data = request.get_json()
+            if "name" not in request_data:
+                response_value = {"name": "This field is required"}
+                return jsonify(errors=response_value), 422
+
+            user_name = request_data["name"]
+            users[user_name] = {}
+            return jsonify(data=f"User {user_name} is created!"), 201
+
+        @app.get("/user/<name>")
+        def show_user(name: str) -> tuple[Response, int]:
+            if name in users:
+                response = jsonify(data=f"My name is {name}"), 200
+            else:
+                response = jsonify(""), 404
+            return response
+
+        @app.route("/user/<name>", methods=["PATCH"])
+        def update_user(name: str) -> tuple[Response, int]:
+            new_data = request.get_json()
+            new_name = new_data["name"]
+            if name in users:
+                user_data = users.pop(name)
+                users[new_name] = user_data
+                return jsonify(data=f"My name is {new_name}"), 200
+            else:
+                return jsonify(""), 404
+
+        @app.route("/user/<name>", methods=["DELETE"])
+        def delete_user(name: str) -> tuple[str, int]:
+            del users[name]
+            return "", 204
