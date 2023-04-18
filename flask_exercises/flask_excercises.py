@@ -64,5 +64,8 @@ class FlaskExercise:
 
         @app.route("/user/<name>", methods=["DELETE"])
         def delete_user(name: str) -> tuple[str, int]:
-            del users[name]
-            return "", 204
+            if name in users:
+                del users[name]
+                return "", 204
+            else:
+                return "", 404
